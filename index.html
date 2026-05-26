@@ -358,6 +358,141 @@
     }
     .fade-in.visible { opacity: 1; transform: translateY(0); }
 
+    /* ── SOUVENIRS GALLERY ── */
+    #souvenirs {
+      background:
+        radial-gradient(ellipse 60% 40% at 80% 20%, rgba(192,73,90,0.07), transparent),
+        radial-gradient(ellipse 50% 50% at 10% 80%, rgba(201,168,76,0.05), transparent),
+        var(--deep);
+      border-top: 1px solid rgba(192,73,90,0.15);
+      border-bottom: 1px solid rgba(192,73,90,0.15);
+      padding: 6rem 2rem;
+    }
+    #souvenirs .section { max-width: 1000px; }
+    .gallery-intro {
+      text-align: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.1rem;
+      color: rgba(245,237,230,0.7);
+      max-width: 520px;
+      margin: 0 auto 3.5rem;
+      line-height: 1.8;
+    }
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+    .photo-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+    .photo-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: 2px;
+      border: 1px solid rgba(192,73,90,0.2);
+      background: rgba(255,255,255,0.02);
+      aspect-ratio: 1 / 1;
+      cursor: pointer;
+      transition: border-color 0.4s, box-shadow 0.4s;
+    }
+    .photo-item:nth-child(1) { aspect-ratio: auto; min-height: 320px; }
+    .photo-item:hover { border-color: var(--rose); box-shadow: 0 12px 40px rgba(192,73,90,0.2); }
+    .photo-item img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+      transition: transform 0.6s ease, filter 0.4s;
+      filter: brightness(0.88) saturate(0.9);
+    }
+    .photo-item:hover img { transform: scale(1.06); filter: brightness(1) saturate(1.1); }
+    /* romantic image overlay effects */
+    .photo-item::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(192,73,90,0.18) 0%, transparent 60%, rgba(201,168,76,0.10) 100%);
+      pointer-events: none;
+      transition: opacity 0.4s;
+      opacity: 1;
+    }
+    .photo-item:hover::after { opacity: 0; }
+
+    /* vignette frame inside each photo */
+    .photo-item .vignette {
+      position: absolute; inset: 0; pointer-events: none; z-index: 2;
+      box-shadow: inset 0 0 40px rgba(10,4,6,0.55);
+      border-radius: 2px;
+    }
+
+    /* subtle grain texture overlay */
+    .photo-item .grain {
+      position: absolute; inset: 0; pointer-events: none; z-index: 3;
+      opacity: 0.06;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 180px;
+    }
+
+    /* heart badge top-right */
+    .photo-item .heart-badge {
+      position: absolute; top: 0.6rem; right: 0.7rem; z-index: 5;
+      font-size: 1rem; opacity: 0;
+      transition: opacity 0.3s, transform 0.3s;
+      transform: scale(0.6);
+      filter: drop-shadow(0 2px 6px rgba(192,73,90,0.7));
+    }
+    .photo-item:hover .heart-badge { opacity: 1; transform: scale(1); }
+    .photo-caption {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 1.2rem 1rem 0.9rem;
+      background: linear-gradient(transparent, rgba(10,4,6,0.85));
+      font-family: 'Dancing Script', cursive;
+      font-size: 1rem; color: var(--rose-light);
+      transform: translateY(100%);
+      transition: transform 0.4s ease;
+      text-align: center;
+    }
+    .photo-item:hover .photo-caption { transform: translateY(0); }
+    .photo-item:nth-child(1) .photo-caption { font-size: 1.3rem; }
+    #lightbox {
+      display: none; position: fixed; inset: 0; z-index: 1000;
+      background: rgba(10,4,6,0.96);
+      align-items: center; justify-content: center;
+      flex-direction: column; gap: 1.5rem;
+      backdrop-filter: blur(8px);
+    }
+    #lightbox.open { display: flex; }
+    #lightbox img {
+      max-width: 88vw; max-height: 75vh;
+      object-fit: contain;
+      border: 1px solid rgba(192,73,90,0.3);
+      box-shadow: 0 0 80px rgba(192,73,90,0.15);
+      border-radius: 2px;
+    }
+    #lb-caption {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.4rem; color: var(--rose-light); text-align: center;
+    }
+    #lb-close {
+      position: absolute; top: 1.5rem; right: 2rem;
+      font-family: 'Cinzel', serif; font-size: 0.7rem; letter-spacing: 0.3em;
+      color: var(--gold); cursor: pointer;
+      background: none; border: 1px solid rgba(201,168,76,0.3);
+      padding: 0.4rem 0.9rem; border-radius: 1px; transition: background 0.3s;
+    }
+    #lb-close:hover { background: rgba(201,168,76,0.1); }
+    .lb-nav {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      font-size: 1.5rem; color: var(--rose-light);
+      background: rgba(192,73,90,0.1); border: 1px solid rgba(192,73,90,0.3);
+      width: 44px; height: 44px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: background 0.3s; user-select: none;
+    }
+    .lb-nav:hover { background: rgba(192,73,90,0.25); }
+    #lb-prev { left: 1.5rem; } #lb-next { right: 1.5rem; }
+    @media (max-width: 600px) {
+      .photo-grid { grid-template-columns: repeat(2, 1fr); }
+      .photo-item:nth-child(1) { grid-column: span 2; }
+    }
+
     /* ── HEARTS BURST ── */
     .heart-burst {
       position: fixed; pointer-events: none; z-index: 9997;
@@ -390,6 +525,7 @@
   <a href="#poemes">Poèmes</a>
   <a href="#lumiere">La lumière</a>
   <a href="#murmures">Murmures</a>
+  <a href="#souvenirs">Souvenirs</a>
   <a href="#eternite">Éternité</a>
 </nav>
 
@@ -628,6 +764,102 @@ Pour toujours et au-delà,
   </div>
 </section>
 
+<!-- SOUVENIRS -->
+<section id="souvenirs">
+  <div class="section">
+    <span class="section-label fade-in">Nos Souvenirs</span>
+    <h2 class="section-title fade-in" style="text-align:center">Nos plus beaux moments</h2>
+    <p class="gallery-intro fade-in">
+      Chaque photo est un trésor, un instant volé au temps
+      que ni l'oubli ni les saisons ne pourront effacer.
+      <em>Diary &amp; Riantsoa</em> — pour toujours gravés dans la lumière.
+    </p>
+
+    <div class="photo-grid" id="photoGrid">
+
+      <div class="photo-item fade-in" data-index="0">
+        <img src="photo1.jpeg" alt="Souvenir 1" loading="lazy"/>
+        <div class="vignette"></div><div class="grain"></div>
+        <span class="heart-badge">❤</span>
+        <div class="photo-caption">Ma vie ❤</div>
+      </div>
+
+      <div class="photo-item fade-in" data-index="1">
+        <img src="photo2.jpeg" alt="Souvenir 2" loading="lazy"/>
+        <div class="vignette"></div><div class="grain"></div>
+        <span class="heart-badge">💕</span>
+        <div class="photo-caption">Ensemble, toujours 💕</div>
+      </div>
+
+      <div class="photo-item fade-in" data-index="2">
+        <img src="photo3.jpeg" alt="Souvenir 3" loading="lazy"/>
+        <div class="vignette"></div><div class="grain"></div>
+        <span class="heart-badge">✨</span>
+        <div class="photo-caption">Un moment de bonheur ✨</div>
+      </div>
+
+      <div class="photo-item fade-in" data-index="3">
+        <img src="photo4.jpeg" alt="Souvenir 4" loading="lazy"/>
+        <div class="vignette"></div><div class="grain"></div>
+        <span class="heart-badge">🌹</span>
+        <div class="photo-caption">Nos sourires, nos vies 🌹</div>
+      </div>
+
+      <div class="photo-item fade-in" data-index="4">
+        <img src="photo5.jpeg" alt="Souvenir 5" loading="lazy"/>
+        <div class="vignette"></div><div class="grain"></div>
+        <span class="heart-badge">💫</span>
+        <div class="photo-caption">Là où tout a commencé 💫</div>
+      </div>
+
+      <div class="photo-item fade-in" data-index="5">
+        <img src="photo6.jpeg" alt="Souvenir 6" loading="lazy"/>
+        <div class="vignette"></div><div class="grain"></div>
+        <span class="heart-badge">❤</span>
+        <div class="photo-caption">Dans tes yeux, le monde ❤</div>
+      </div>
+
+      <div class="photo-item fade-in" data-index="6">
+        <img src="photo7.jpeg" alt="Souvenir 7" loading="lazy"/>
+        <div class="vignette"></div><div class="grain"></div>
+        <span class="heart-badge">🌸</span>
+        <div class="photo-caption">Ma plus belle aventure 🌸</div>
+      </div>
+
+      <div class="photo-item fade-in" data-index="7">
+        <img src="photo8.jpeg" alt="Souvenir 8" loading="lazy"/>
+        <div class="vignette"></div><div class="grain"></div>
+        <span class="heart-badge">💖</span>
+        <div class="photo-caption">Riantsoa, mon éternité 💖</div>
+      </div>
+
+      <div class="photo-item fade-in" data-index="8">
+        <img src="photo9.jpeg" alt="Souvenir 9" loading="lazy"/>
+        <div class="vignette"></div><div class="grain"></div>
+        <span class="heart-badge">✦</span>
+        <div class="photo-caption">Les instants précieux ✦</div>
+      </div>
+
+      <div class="photo-item fade-in" data-index="9">
+        <img src="photo10.jpeg" alt="Souvenir 10" loading="lazy"/>
+        <div class="vignette"></div><div class="grain"></div>
+        <span class="heart-badge">💞</span>
+        <div class="photo-caption">Diary ❤ Riantsoa — pour toujours</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div id="lightbox">
+  <button id="lb-close" onclick="closeLightbox()">✕ &nbsp; FERMER</button>
+  <button class="lb-nav" id="lb-prev" onclick="lbNav(-1)">‹</button>
+  <img id="lb-img" src="" alt="souvenir"/>
+  <div id="lb-caption"></div>
+  <button class="lb-nav" id="lb-next" onclick="lbNav(1)">›</button>
+</div>
+
 <!-- FOOTER -->
 <footer>
   <div class="big">Diary ❤ Riantsoa</div>
@@ -673,7 +905,36 @@ Pour toujours et au-delà,
     }
   });
 
-  // ── SCROLL ANIMATIONS ──
+  // ── GALLERY LIGHTBOX ──
+  const captions = [
+    "Notre premier souvenir ❤","Ensemble, toujours 💕","Un moment de bonheur ✨",
+    "Nos sourires, nos vies 🌹","Là où tout a commencé 💫","Dans tes yeux, le monde ❤",
+    "Ma plus belle aventure 🌸","Riantsoa, mon éternité 💖","Les instants précieux ✦",
+    "Diary ❤ Riantsoa — pour toujours"
+  ];
+  const photos = Array.from({length:10}, (_,i) => `photo${i+1}.jpeg`);
+
+  document.querySelectorAll('.photo-item').forEach(item => {
+    item.addEventListener('click', () => openLightbox(+item.dataset.index));
+  });
+
+  let lbCurrent = 0;
+  function openLightbox(index) {
+    lbCurrent = index;
+    document.getElementById('lb-img').src = photos[index];
+    document.getElementById('lb-caption').textContent = captions[index];
+    document.getElementById('lightbox').classList.add('open');
+  }
+  function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); }
+  function lbNav(dir) { openLightbox((lbCurrent + dir + 10) % 10); }
+  document.getElementById('lb-close').addEventListener('click', closeLightbox);
+  document.getElementById('lightbox').addEventListener('click', e => { if (e.target === document.getElementById('lightbox')) closeLightbox(); });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowRight') lbNav(1);
+    if (e.key === 'ArrowLeft') lbNav(-1);
+  });
+
   const observer = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
   }, { threshold: 0.12 });
